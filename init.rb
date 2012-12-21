@@ -2,6 +2,14 @@ require 'redmine'
 require 'dispatcher'
 
 require 'redmine_issue_checklist/redmine_issue_checklist'
+require 'copy_issue_patch'
+
+require 'dispatcher'
+Dispatcher.to_prepare do
+  unless Issue.included_modules.include? CopyIssuePatch
+    Issue.send(:include, CopyIssuePatch)
+  end
+end
 
 Redmine::Plugin.register :redmine_issue_checklist do
   name 'Redmine Issue Checklist plugin'
